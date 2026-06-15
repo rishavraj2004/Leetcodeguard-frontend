@@ -2,31 +2,54 @@ import { useRegister } from "../hooks/useRegister";
 
 function IconUser() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"
-      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
     </svg>
   );
 }
 
 function IconHash() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"
-      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/>
-      <line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="4" y1="9" x2="20" y2="9" />
+      <line x1="4" y1="15" x2="20" y2="15" />
+      <line x1="10" y1="3" x2="8" y2="21" />
+      <line x1="16" y1="3" x2="14" y2="21" />
     </svg>
   );
 }
 
 function IconAlertCircle() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"
-      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="10"/>
-      <line x1="12" y1="8" x2="12" y2="12"/>
-      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
     </svg>
   );
 }
@@ -38,13 +61,13 @@ function SuccessPage() {
         <div className="success-rule" aria-hidden="true" />
         <h2>You're registered.</h2>
         <p>
-          You have successfully registered. No further steps needed —
-          you will now start receiving streak reminders on Telegram.
+          You have successfully registered. No further steps needed — you will
+          now start receiving streak reminders on Telegram.
         </p>
         <p>
           To unsubscribe at any time, please use the{" "}
           <a
-            href="https://t.me/leetcode_streak_guard_bot"
+            href="https://t.me/LeetcodeGuard_bot"
             target="_blank"
             rel="noreferrer"
             className="success-bot-link"
@@ -73,14 +96,20 @@ export default function RegisterPage() {
       <div className="register-wrapper">
         <header className="register-header">
           <h1>Register</h1>
-          <p>Enter your LeetCode username and Telegram Chat ID to start receiving reminders.</p>
+          <p>
+            Enter your LeetCode username and Telegram Chat ID to start receiving
+            reminders. Registration may take some time to complete, so please
+            wait for few seconds.
+          </p>
         </header>
 
         <form className="form" onSubmit={handleSubmit} noValidate>
           <div className="field">
             <label htmlFor="leetcodeUsername">LeetCode username</label>
             <div className="input-wrap">
-              <span className="input-icon"><IconUser /></span>
+              <span className="input-icon">
+                <IconUser />
+              </span>
               <input
                 id="leetcodeUsername"
                 name="leetcodeUsername"
@@ -91,7 +120,9 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 disabled={isLoading}
                 className={fieldErrors.leetcodeUsername ? "has-error" : ""}
-                aria-describedby={fieldErrors.leetcodeUsername ? "lc-err" : undefined}
+                aria-describedby={
+                  fieldErrors.leetcodeUsername ? "lc-err" : undefined
+                }
                 aria-invalid={!!fieldErrors.leetcodeUsername}
               />
             </div>
@@ -105,7 +136,9 @@ export default function RegisterPage() {
           <div className="field">
             <label htmlFor="telegramChatId">Telegram Chat ID</label>
             <div className="input-wrap">
-              <span className="input-icon"><IconHash /></span>
+              <span className="input-icon">
+                <IconHash />
+              </span>
               <input
                 id="telegramChatId"
                 name="telegramChatId"
@@ -127,8 +160,12 @@ export default function RegisterPage() {
             )}
             <p id="tg-hint" className="field-hint">
               Message{" "}
-              <a href="https://t.me/userinfobot" target="_blank" rel="noreferrer">
-                @userinfobot
+              <a
+                href="https://t.me/LeetcodeGuard_bot"
+                target="_blank"
+                rel="noreferrer"
+              >
+                @LeetcodeGuard_bot
               </a>{" "}
               on Telegram to get your Chat ID.
             </p>
@@ -141,9 +178,13 @@ export default function RegisterPage() {
               disabled={isLoading}
               aria-busy={isLoading}
             >
-              {isLoading
-                ? <><span className="spinner" aria-hidden="true" /> Registering</>
-                : "Register"}
+              {isLoading ? (
+                <>
+                  <span className="spinner" aria-hidden="true" /> Registering
+                </>
+              ) : (
+                "Register"
+              )}
             </button>
           </div>
 
@@ -156,7 +197,8 @@ export default function RegisterPage() {
         </form>
 
         <p className="register-note">
-          We only store your username and Chat ID. No passwords, no LeetCode account access.
+          We only store your username and Chat ID. No passwords, no LeetCode
+          account access.
         </p>
       </div>
     </div>
