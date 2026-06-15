@@ -13,6 +13,9 @@ export default function Footer() {
           </div>
           <p className="footer-description">
             Keep your streaks alive and never miss a day.
+            <br />
+            <br />
+            Built and Maintained by <stong>Rishav raj</stong>
           </p>
         </div>
 
