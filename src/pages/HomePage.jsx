@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer"; // Adjust the import path as needed
+import Footer from "../components/Footer";
+import { useEffect, useState } from "react";
+import { wakeServer } from "../api/healthApi";
 
 const FEATURES = [
   {
@@ -47,6 +49,40 @@ const STEPS = [
 ];
 
 export default function HomePage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function initialize() {
+      try {
+        await wakeServer();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    initialize();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-inner">
+          <div className="loading-rule" />
+          <div className="loading-icon">
+            <div className="loading-spinner-large" />
+          </div>
+          <h2>Connecting to LeetCode Guard...</h2>
+          <p>This may take 20–60 seconds on first visit.</p>
+          <div className="loading-hint">
+            <p>Wake-up request in progress — thanks for your patience.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <main className="page">
@@ -96,6 +132,7 @@ export default function HomePage() {
         <section className="home-section">
           <div className="section-header">
             <span className="section-title">How it works</span>
+            <span className="section-count">3 steps</span>
           </div>
           <ol className="steps-list">
             {STEPS.map((s) => (
@@ -108,6 +145,43 @@ export default function HomePage() {
               </li>
             ))}
           </ol>
+        </section>
+
+        {/* Stats Section - New */}
+        <section className="home-section stats-section">
+          <div className="section-header">
+            <span className="section-title">Why choose us</span>
+            <span className="section-count">trusted</span>
+          </div>
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-number">100%</div>
+              <div className="stat-label">Free Forever</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">No Login</div>
+              <div className="stat-label">Required</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">24/7</div>
+              <div className="stat-label">Monitoring</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">Instant</div>
+              <div className="stat-label">Setup</div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section - New */}
+        <section className="home-section cta-section">
+          <div className="cta-card">
+            <h3>Ready to protect your streak?</h3>
+            <p>Join developers who never miss a day of coding practice.</p>
+            <Link to="/register" className="btn btn-primary">
+              Register Now
+            </Link>
+          </div>
         </section>
       </main>
       <Footer />
