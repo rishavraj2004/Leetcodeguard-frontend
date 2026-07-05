@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // LeetCode Guard — full site (Landing · Register · About)
 // Same dual light-tone system as the dashboard:
@@ -260,33 +260,6 @@ h1.lg-h1 .tint-b { color: var(--blue-deep); }
 .lg-chip.a { background: var(--amber-tint); border-color: var(--amber-line); }
 .lg-chip.b { background: var(--blue-tint); border-color: var(--blue-line); }
 
-/* ---------- projects ---------- */
-.lg-projects-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
-}
-.lg-project-card {
-  border: 1px solid var(--line); border-radius: 16px; padding: 24px;
-  background: #fff; text-decoration: none; color: inherit;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-  display: flex; flex-direction: column;
-}
-.lg-project-card:hover {
-  transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.04); border-color: var(--blue-line);
-}
-.lg-project-card h3 {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600; font-size: 18px; margin-bottom: 8px; color: var(--ink);
-}
-.lg-project-card p {
-  font-size: 14px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;
-}
-.lg-project-meta {
-  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-soft);
-  display: flex; gap: 16px; align-items: center;
-}
-.lg-project-meta span { display: flex; align-items: center; gap: 6px; }
-.lg-project-meta .lang-color { width: 8px; height: 8px; border-radius: 50%; background: var(--blue-deep); }
-
 /* ---------- footer ---------- */
 .lg-footer {
   margin-top: auto; border-top: 1px solid var(--line);
@@ -523,7 +496,7 @@ function RegisterPage() {
           <label className="lg-label" htmlFor="lc-id">LeetCode username</label>
           <input id="lc-id"
             className={`lg-input ${fieldErr.username ? "err" : ""}`}
-            type="text" placeholder="e.g. rishav_raj" value={username}
+            type="text" placeholder="e.g. raj_porwal" value={username}
             onChange={(e) => {
               setUsername(e.target.value);
               setFieldErr((p) => ({ ...p, username: undefined }));
@@ -573,31 +546,13 @@ function RegisterPage() {
 
 /* =============== ABOUT =============== */
 function AboutPage() {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("https://api.github.com/users/rishavraj2004/repos?sort=updated&per_page=12")
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setProjects(data.filter(repo => !repo.fork));
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch projects:", err);
-        setLoading(false);
-      });
-  }, []);
-
   return (
     <main className="lg-shell">
       <section className="lg-about">
         <div className="lg-eyebrow">About the builder</div>
         <h1>Built by someone who almost lost a streak.</h1>
         <p>
-          I'm Rishav Raj — a backend and agentic AI engineer, B.Tech CSE student, and a
+          I'm Raj — a backend and agentic AI engineer, B.Tech CSE student, and a
           person who grinds a public DSA challenge daily. LeetCode Guard exists
           because a streak is a stupid thing to lose to a long day, and because
           the fix is one cron job and one Telegram bot away.
@@ -608,38 +563,16 @@ function AboutPage() {
           that only speaks when needed, and this React frontend — no UI library,
           no login, no data beyond the two IDs the job requires.
         </p>
-        <p className="quiet" style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>
+        <p className="quiet">
           When not guarding streaks, I build honeypot threat-intel platforms,
           multi-agent systems, and the occasional cyberpunk terminal UI. This
           site is the quiet one in the family.
         </p>
         <div className="lg-about-links">
-          <a className="lg-chip a" href="https://github.com/rishavraj2004" target="_blank" rel="noreferrer">github ↗</a>
-          <a className="lg-chip b" href="https://www.linkedin.com/in/rishavraj04" target="_blank" rel="noreferrer">linkedin ↗</a>
-          <a className="lg-chip" href="https://twitter.com/" target="_blank" rel="noreferrer">twitter ↗</a>
+          <a className="lg-chip a" href="https://github.com/rishavraj2004/Leetcodeguard-frontend" target="_blank" rel="noreferrer">github ↗</a>
+          <a className="lg-chip b" href="https://www.linkedin.com/in/raj-porwal-329493216" target="_blank" rel="noreferrer">linkedin ↗</a>
+          <a className="lg-chip" href="https://twitter.com/raaz_porwal" target="_blank" rel="noreferrer">twitter ↗</a>
         </div>
-      </section>
-
-      <section className="lg-projects-section" style={{ paddingBottom: '80px' }}>
-        <h2 style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: '26px', marginBottom: '24px' }}>Other Projects</h2>
-        {loading ? (
-          <p className="quiet" style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>Fetching projects from GitHub...</p>
-        ) : (
-          <div className="lg-projects-grid">
-            {projects.map(repo => (
-              <a key={repo.id} href={repo.html_url} target="_blank" rel="noreferrer" className="lg-project-card">
-                <h3>{repo.name}</h3>
-                <p>{repo.description || "No description provided."}</p>
-                <div className="lg-project-meta">
-                  {repo.language && (
-                    <span><div className="lang-color"></div>{repo.language}</span>
-                  )}
-                  <span>⭐ {repo.stargazers_count}</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
       </section>
     </main>
   );
@@ -660,7 +593,7 @@ export default function LeetCodeGuardSite() {
       <footer className="lg-footer">
         <div className="lg-footer-inner">
           <span>LeetCode Guard · streak protection</span>
-          <span>daily check · 22:00 IST</span>
+          <span>daily check · 21:00 IST</span>
         </div>
       </footer>
     </div>
