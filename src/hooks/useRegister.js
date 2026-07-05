@@ -33,6 +33,7 @@ export function useRegister() {
   const [fieldErrors, setFieldErrors] = useState(INITIAL_ERRORS);
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [message, setMessage] = useState("");
+  const [registered, setRegistered] = useState(INITIAL_FIELDS);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -53,11 +54,14 @@ export function useRegister() {
       setStatus("loading");
       setMessage("");
 
+      const payload = {
+        leetcodeUsername: fields.leetcodeUsername.trim(),
+        telegramChatId: fields.telegramChatId.trim(),
+      };
+
       try {
-        const data = await registerUser({
-          leetcodeUsername: fields.leetcodeUsername.trim(),
-          telegramChatId: fields.telegramChatId.trim(),
-        });
+        const data = await registerUser(payload);
+        setRegistered(payload);
         setStatus("success");
         setMessage(data.message || "You're registered! Reminders will arrive on Telegram. No further step needed now");
         setFields(INITIAL_FIELDS);
@@ -79,5 +83,5 @@ export function useRegister() {
     setFieldErrors(INITIAL_ERRORS);
   }, []);
 
-  return { fields, fieldErrors, status, message, handleChange, handleSubmit, reset };
+  return { fields, fieldErrors, status, message, registered, handleChange, handleSubmit, reset };
 }
