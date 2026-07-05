@@ -1,206 +1,170 @@
 import { useRegister } from "../hooks/useRegister";
+import Shield from "../components/Shield";
 
-function IconUser() {
+function SuccessPage({ registered }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
-
-function IconHash() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="4" y1="9" x2="20" y2="9" />
-      <line x1="4" y1="15" x2="20" y2="15" />
-      <line x1="10" y1="3" x2="8" y2="21" />
-      <line x1="16" y1="3" x2="14" y2="21" />
-    </svg>
-  );
-}
-
-function IconAlertCircle() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <line x1="12" y1="8" x2="12" y2="12" />
-      <line x1="12" y1="16" x2="12.01" y2="16" />
-    </svg>
-  );
-}
-
-function SuccessPage() {
-  return (
-    <div className="success-page">
-      <div className="success-inner">
-        <div className="success-rule" aria-hidden="true" />
-        <h2>You're registered.</h2>
-        <p>
-          You have successfully registered. No further steps needed — you will
-          now start receiving streak reminders on Telegram.
-        </p>
-        <p>
-          To unsubscribe at any time, please use the{" "}
-          <a
-            href="https://t.me/LeetcodeGuard_bot"
-            target="_blank"
-            rel="noreferrer"
-            className="success-bot-link"
-          >
+    <main className="lg-shell">
+      <section className="lg-success">
+        <div className="big-shield"><Shield armed size={38} /></div>
+        <h1>Guard armed</h1>
+        <div className="who">
+          watching {registered.leetcodeUsername} · alerting {registered.telegramChatId}
+        </div>
+        <div className="lg-next">
+          <div className="lg-step">
+            <span className="n">next</span>
+            <div className="t">Open Telegram</div>
+            <div className="d">
+              Make sure you've started a chat with{" "}
+              <a href="https://t.me/LeetcodeGuard_bot" target="_blank" rel="noreferrer">
+                @LeetcodeGuard_bot
+              </a>{" "}
+              so it can message you.
+            </div>
+          </div>
+          <div className="lg-step">
+            <span className="n">next</span>
+            <div className="t">Solve today's problem</div>
+            <div className="d">Checks start tonight. If today is already done, you'll hear nothing — that's good.</div>
+          </div>
+          <div className="lg-step">
+            <span className="n">next</span>
+            <div className="t">Forget about it</div>
+            <div className="d">The guard runs daily on its own. It only speaks when your streak is in danger.</div>
+          </div>
+        </div>
+        <p className="quiet-note">
+          To unsubscribe at any time, use the{" "}
+          <a href="https://t.me/LeetcodeGuard_bot" target="_blank" rel="noreferrer">
             Telegram bot
-          </a>
-          .
+          </a>.
         </p>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
 export default function RegisterPage() {
-  const { fields, fieldErrors, status, message, handleChange, handleSubmit } =
-    useRegister();
+  const {
+    fields,
+    fieldErrors,
+    status,
+    message,
+    registered,
+    handleChange,
+    handleSubmit,
+  } = useRegister();
 
   const isLoading = status === "loading";
+  const bothFilled = fields.leetcodeUsername.trim() && fields.telegramChatId.trim();
 
   if (status === "success") {
-    return <SuccessPage />;
+    return <SuccessPage registered={registered} />;
   }
 
   return (
-    <div className="register-page">
-      <div className="register-wrapper">
-        <header className="register-header">
-          <h1>Register</h1>
-          <p>
-            Enter your LeetCode username and Telegram Chat ID to start receiving
-            reminders. Registration may take some time to complete, so please
-            wait for few seconds.
-          </p>
-        </header>
-
-        <form className="form" onSubmit={handleSubmit} noValidate>
-          <div className="field">
-            <label htmlFor="leetcodeUsername">LeetCode username</label>
-            <div className="input-wrap">
-              <span className="input-icon">
-                <IconUser />
-              </span>
-              <input
-                id="leetcodeUsername"
-                name="leetcodeUsername"
-                type="text"
-                autoComplete="username"
-                placeholder="your_username"
-                value={fields.leetcodeUsername}
-                onChange={handleChange}
-                disabled={isLoading}
-                className={fieldErrors.leetcodeUsername ? "has-error" : ""}
-                aria-describedby={
-                  fieldErrors.leetcodeUsername ? "lc-err" : undefined
-                }
-                aria-invalid={!!fieldErrors.leetcodeUsername}
-              />
-            </div>
-            {fieldErrors.leetcodeUsername && (
-              <span id="lc-err" className="field-error" role="alert">
-                {fieldErrors.leetcodeUsername}
-              </span>
-            )}
-          </div>
-
-          <div className="field">
-            <label htmlFor="telegramChatId">Telegram Chat ID</label>
-            <div className="input-wrap">
-              <span className="input-icon">
-                <IconHash />
-              </span>
-              <input
-                id="telegramChatId"
-                name="telegramChatId"
-                type="text"
-                inputMode="numeric"
-                placeholder="123456789"
-                value={fields.telegramChatId}
-                onChange={handleChange}
-                disabled={isLoading}
-                className={fieldErrors.telegramChatId ? "has-error" : ""}
-                aria-describedby={`tg-hint${fieldErrors.telegramChatId ? " tg-err" : ""}`}
-                aria-invalid={!!fieldErrors.telegramChatId}
-              />
-            </div>
-            {fieldErrors.telegramChatId && (
-              <span id="tg-err" className="field-error" role="alert">
-                {fieldErrors.telegramChatId}
-              </span>
-            )}
-            <p id="tg-hint" className="field-hint">
-              Message{" "}
-              <a
-                href="https://t.me/LeetcodeGuard_bot"
-                target="_blank"
-                rel="noreferrer"
-              >
-                @LeetcodeGuard_bot
-              </a>{" "}
-              on Telegram to get your Chat ID.
-            </p>
-          </div>
-
-          <div className="form-submit">
-            <button
-              type="submit"
-              className="btn btn-primary btn-full"
-              disabled={isLoading}
-              aria-busy={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <span className="spinner" aria-hidden="true" /> Registering
-                </>
-              ) : (
-                "Register"
-              )}
-            </button>
-          </div>
-
-          {status === "error" && (
-            <div className="alert alert-error" role="alert">
-              <IconAlertCircle />
-              {message}
-            </div>
-          )}
-        </form>
-
-        <p className="register-note">
-          We only store your username and Chat ID. No passwords, no LeetCode
-          account access.
-        </p>
+    <main className="lg-shell">
+      <div className="lg-page-head">
+        <div className="lg-eyebrow">Registration</div>
+        <h1 className="lg-h1" style={{ fontSize: "clamp(28px, 4.5vw, 40px)" }}>
+          Two IDs and you're covered.
+        </h1>
       </div>
-    </div>
+
+      <form onSubmit={handleSubmit} noValidate style={{ marginBottom: 72 }}>
+        <section className="lg-card" aria-label="Guard setup">
+          <div className="lg-pane pane-amber">
+            <div className="lg-eyebrow">What we watch</div>
+            <h2>Your LeetCode streak</h2>
+            <p className="sub">We check whether today's problem is solved on this account.</p>
+            <label className="lg-label" htmlFor="leetcodeUsername">LeetCode username</label>
+            <input
+              id="leetcodeUsername"
+              name="leetcodeUsername"
+              className={`lg-input ${fieldErrors.leetcodeUsername ? "err" : ""}`}
+              type="text"
+              placeholder="e.g. rishav_raj"
+              value={fields.leetcodeUsername}
+              onChange={handleChange}
+              disabled={isLoading}
+              autoComplete="username"
+              spellCheck="false"
+              aria-invalid={!!fieldErrors.leetcodeUsername}
+              aria-describedby={fieldErrors.leetcodeUsername ? "lc-err" : "lc-hint"}
+            />
+            {fieldErrors.leetcodeUsername ? (
+              <div id="lc-err" className="lg-field-error" role="alert">
+                {fieldErrors.leetcodeUsername}
+              </div>
+            ) : (
+              <div id="lc-hint" className="lg-hint">
+                The username in your profile URL: <code>leetcode.com/u/&lt;id&gt;</code>
+              </div>
+            )}
+          </div>
+
+          <div className="lg-pane pane-blue">
+            <div className="lg-eyebrow">Where we alert you</div>
+            <h2>Your Telegram</h2>
+            <p className="sub">If the streak is at risk, a reminder lands here before midnight.</p>
+            <label className="lg-label" htmlFor="telegramChatId">Telegram chat ID</label>
+            <input
+              id="telegramChatId"
+              name="telegramChatId"
+              className={`lg-input ${fieldErrors.telegramChatId ? "err" : ""}`}
+              type="text"
+              inputMode="numeric"
+              placeholder="e.g. 5912384756"
+              value={fields.telegramChatId}
+              onChange={handleChange}
+              disabled={isLoading}
+              autoComplete="off"
+              spellCheck="false"
+              aria-invalid={!!fieldErrors.telegramChatId}
+              aria-describedby={fieldErrors.telegramChatId ? "tg-err" : "tg-hint"}
+            />
+            {fieldErrors.telegramChatId ? (
+              <div id="tg-err" className="lg-field-error" role="alert">
+                {fieldErrors.telegramChatId}
+              </div>
+            ) : (
+              <div id="tg-hint" className="lg-hint">
+                Get your numeric ID by messaging{" "}
+                <a href="https://t.me/LeetcodeGuard_bot" target="_blank" rel="noreferrer">
+                  @LeetcodeGuard_bot
+                </a>{" "}
+                on Telegram
+              </div>
+            )}
+          </div>
+
+          <div className="lg-seam" aria-hidden="true" />
+          <div className={`lg-shield ${bothFilled ? "armed" : ""}`} aria-hidden="true">
+            <Shield armed={!!bothFilled} />
+          </div>
+        </section>
+
+        <div className="lg-actions">
+          <button
+            type="submit"
+            className="lg-btn"
+            disabled={!bothFilled || isLoading}
+            aria-busy={isLoading}
+          >
+            {isLoading ? "Arming…" : "Activate guard"}
+          </button>
+          <div className={`lg-status ${status === "error" ? "bad" : ""}`} role="status">
+            <span className={`lg-dot ${status === "error" ? "bad" : ""}`} />
+            {status === "error"
+              ? message
+              : isLoading
+              ? "arming — this can take a few seconds"
+              : bothFilled
+              ? "ready — activate to start watching"
+              : "add both IDs to arm the guard"}
+          </div>
+        </div>
+      </form>
+    </main>
   );
 }
