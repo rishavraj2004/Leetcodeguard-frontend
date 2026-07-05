@@ -1,190 +1,71 @@
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
-import { useEffect, useState } from "react";
-import { wakeServer } from "../api/healthApi";
-
-const FEATURES = [
-  {
-    name: "Monitoring",
-    body: "Polls the LeetCode API once a day and checks whether you've solved a problem. No account access required.",
-  },
-  {
-    name: "Reminders",
-    body: "Alerts goes out at 10:00 PM IST — only if you haven't solved yet. Silent otherwise.",
-  },
-  {
-    name: "Setup",
-    body: "One-time registration. No app to install, no account to create. Works through Telegram directly.",
-  },
-];
-
-const STEPS = [
-  {
-    n: "1",
-    title: "Get your Chat ID",
-    body: (
-      <>
-        Message /Start{" "}
-        <a
-          href="https://t.me/LeetcodeGuard_bot"
-          target="_blank"
-          rel="noreferrer"
-        >
-          @LeetcodeGuard_bot
-        </a>{" "}
-        on Telegram. It replies instantly with your numeric Chat ID.
-      </>
-    ),
-  },
-  {
-    n: "2",
-    title: "Register",
-    body: "Enter your LeetCode username and Chat ID on the register page. That's everything.",
-  },
-  {
-    n: "3",
-    title: "Solve daily",
-    body: "We handle the rest. If your streak is at risk, you'll hear from us before midnight.",
-  },
-];
+import Shield from "../components/Shield";
 
 export default function HomePage() {
-  const [loading, setLoading] = useState(true);
+  return (
+    <main className="lg-shell">
+      <section className="lg-hero">
+        <div className="lg-eyebrow">Free · No login · One-time setup</div>
+        <h1 className="lg-h1">
+          Your <span className="tint-a">streak</span>, guarded.<br />
+          Your <span className="tint-b">Telegram</span>, pinged.
+        </h1>
+        <p className="lg-lead">
+          LeetCode Guard watches your daily activity and messages you on
+          Telegram before midnight if today's problem is still unsolved.
+          Hundreds of days of consistency shouldn't die to one busy evening.
+        </p>
+        <div className="lg-hero-cta">
+          <Link className="lg-btn" to="/register">Protect my streak</Link>
+          <Link className="lg-btn ghost" to="/about">Who built this</Link>
+        </div>
+      </section>
 
-  useEffect(() => {
-    async function initialize() {
-      try {
-        await wakeServer();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
+      <div className="lg-split-strip" aria-hidden="true">
+        <div className="lg-strip-pane strip-amber">
+          <div className="t">We watch LeetCode</div>
+          <div className="d">Every evening, we check whether your account has a submission for the day.</div>
+        </div>
+        <div className="lg-strip-pane strip-blue">
+          <div className="t">We alert on Telegram</div>
+          <div className="d">Nothing solved yet? A reminder lands in your chat while there's still time.</div>
+        </div>
+        <div className="lg-strip-seam" />
+        <div className="lg-strip-shield"><Shield armed size={20} /></div>
+      </div>
 
-    initialize();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-inner">
-          <div className="loading-rule" />
-          <div className="loading-icon">
-            <div className="loading-spinner-large" />
+      <section className="lg-section">
+        <h2>How it works</h2>
+        <div className="lg-steps">
+          <div className="lg-step">
+            <span className="n">step 1</span>
+            <div className="t">Register once</div>
+            <div className="d">
+              Give us your LeetCode username and Telegram chat ID (message{" "}
+              <a href="https://t.me/LeetcodeGuard_bot" target="_blank" rel="noreferrer">
+                @LeetcodeGuard_bot
+              </a>{" "}
+              to get it). That's the whole form.
+            </div>
           </div>
-          <h2>Connecting to LeetCode Guard...</h2>
-          <p>This may take 20–60 seconds on first visit.</p>
-          <div className="loading-hint">
-            <p>Wake-up request in progress — thanks for your patience.</p>
+          <div className="lg-step">
+            <span className="n">step 2</span>
+            <div className="t">We check daily</div>
+            <div className="d">A scheduled job looks at your public LeetCode activity every evening.</div>
+          </div>
+          <div className="lg-step">
+            <span className="n">step 3</span>
+            <div className="t">You get pinged</div>
+            <div className="d">Streak at risk? You get a Telegram message before midnight. Solved already? Silence.</div>
           </div>
         </div>
+      </section>
+
+      <div className="lg-cta-band">
+        <h2>Two IDs. Thirty seconds. Streak insured.</h2>
+        <p>No account, no password, no email. Just the two things we need to do the job.</p>
+        <Link className="lg-btn" to="/register">Register now</Link>
       </div>
-    );
-  }
-
-  return (
-    <>
-      <main className="page">
-        {/* Hero */}
-        <section className="home-hero">
-          <h1>
-            Don't lose your
-            <br />
-            <em>streak</em> to a busy day.
-          </h1>
-          <p className="hero-desc">
-            Streak Guard tracks your daily LeetCode activity and sends Telegram
-            reminders before it's too late.
-          </p>
-          <div className="hero-actions">
-            <Link to="/register" className="btn btn-primary">
-              Get started
-            </Link>
-            <a
-              href="https://t.me/LeetcodeGuard_bot"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-ghost"
-            >
-              Find my Chat ID
-            </a>
-          </div>
-        </section>
-
-        {/* What it does */}
-        <section className="home-section">
-          <div className="section-header">
-            <span className="section-title">What it does</span>
-            <span className="section-count">3 things</span>
-          </div>
-          <div className="feature-list">
-            {FEATURES.map((f) => (
-              <div className="feature-row" key={f.name}>
-                <span className="feature-name">{f.name}</span>
-                <p className="feature-body">{f.body}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* How it works */}
-        <section className="home-section">
-          <div className="section-header">
-            <span className="section-title">How it works</span>
-            <span className="section-count">3 steps</span>
-          </div>
-          <ol className="steps-list">
-            {STEPS.map((s) => (
-              <li className="step-row" key={s.n}>
-                <span className="step-num">{s.n}</span>
-                <div className="step-body">
-                  <h4>{s.title}</h4>
-                  <p>{s.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* Stats Section - New */}
-        <section className="home-section stats-section">
-          <div className="section-header">
-            <span className="section-title">Why choose us</span>
-            <span className="section-count">trusted</span>
-          </div>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-number">100%</div>
-              <div className="stat-label">Free Forever</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">No Login</div>
-              <div className="stat-label">Required</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">24/7</div>
-              <div className="stat-label">Monitoring</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">Instant</div>
-              <div className="stat-label">Setup</div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section - New */}
-        <section className="home-section cta-section">
-          <div className="cta-card">
-            <h3>Ready to protect your streak?</h3>
-            <p>Join developers who never miss a day of coding practice.</p>
-            <Link to="/register" className="btn btn-primary">
-              Register Now
-            </Link>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+    </main>
   );
 }

@@ -31,6 +31,8 @@ export async function registerUser({ leetcodeUsername, telegramChatId }) {
       data?.message ||
       (response.status === 409
         ? "This LeetCode username is already registered."
+        : response.status === 404
+        ? "We couldn't find that LeetCode username. Check the spelling."
         : response.status === 400
         ? "Invalid input. Please check your details."
         : response.status >= 500
