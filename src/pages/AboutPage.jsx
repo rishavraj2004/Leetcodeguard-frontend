@@ -5,7 +5,9 @@ export default function AboutPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://api.github.com/users/rishavraj2004/repos?sort=updated&per_page=12")
+    fetch(
+      "https://api.github.com/users/rishavraj2004/repos?sort=updated&per_page=12",
+    )
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -25,10 +27,10 @@ export default function AboutPage() {
         <div className="lg-eyebrow">About the builder</div>
         <h1>Built by someone who almost lost a streak.</h1>
         <p>
-          I'm Rishav Raj — a backend and agentic AI engineer, B.Tech CSE student, and a
-          person who grinds a public DSA challenge daily. LeetCode Guard exists
-          because a streak is a stupid thing to lose to a long day, and because
-          the fix is one cron job and one Telegram bot away.
+          I'm Rishav Raj, a Backend Developer pursuing a B.Tech in Computer
+          Science. I enjoy building systems that solve real-world problems
+          through automation, scalable backend architecture, and intelligent AI
+          workflows.
         </p>
         <p>
           The stack is deliberately boring where it should be: a Node.js backend
@@ -37,14 +39,30 @@ export default function AboutPage() {
           no login, no data beyond the two IDs the job requires.
         </p>
         <p className="quiet">
-          When not guarding streaks, I build honeypot threat-intel platforms,
-          multi-agent systems, and the occasional cyberpunk terminal UI. This
-          site is the quiet one in the family.
+          Outside of building products, I consistently practice Data Structures
+          & Algorithms, contribute to open-source projects, participate in
+          hackathons, and continuously learn modern backend and AI technologies.
         </p>
         <div className="lg-about-links">
-          <a className="lg-chip a" href="https://github.com/rishavraj2004" target="_blank" rel="noreferrer">github ↗</a>
-          <a className="lg-chip b" href="https://www.linkedin.com/in/rishavraj04" target="_blank" rel="noreferrer">linkedin ↗</a>
-          <a className="lg-chip" href="mailto:rishav413raj@gmail.com">email ↗</a>
+          <a
+            className="lg-chip a"
+            href="https://github.com/rishavraj2004"
+            target="_blank"
+            rel="noreferrer"
+          >
+            github ↗
+          </a>
+          <a
+            className="lg-chip b"
+            href="https://www.linkedin.com/in/rishavraj04"
+            target="_blank"
+            rel="noreferrer"
+          >
+            linkedin ↗
+          </a>
+          <a className="lg-chip" href="mailto:rishav413raj@gmail.com">
+            email ↗
+          </a>
         </div>
       </section>
 
@@ -55,12 +73,21 @@ export default function AboutPage() {
         ) : (
           <div className="lg-projects-grid">
             {projects.map((repo) => (
-              <a key={repo.id} href={repo.html_url} target="_blank" rel="noreferrer" className="lg-project-card">
+              <a
+                key={repo.id}
+                href={repo.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="lg-project-card"
+              >
                 <h3>{repo.name}</h3>
                 <p>{repo.description || "No description provided."}</p>
                 <div className="lg-project-meta">
                   {repo.language && (
-                    <span><span className="lang-color" />{repo.language}</span>
+                    <span>
+                      <span className="lang-color" />
+                      {repo.language}
+                    </span>
                   )}
                   <span>⭐ {repo.stargazers_count}</span>
                 </div>
